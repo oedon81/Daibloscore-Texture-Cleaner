@@ -21,7 +21,7 @@ The characters as they are drawn in the game (Spine 4.2 render of the idle pose,
 
 ### Held-out eval skins (Raw ASTC 6x6 vs Cleaned vs Clean original)
 
-These three textures are held out from training and have known lossless originals from the game build. Left uses the Android ASTC 6x6 texture as shipped, middle uses the paired PC + Android textures run through `clean.py` at the default settings, and right is the clean original.
+These four textures are held out from training and have known lossless originals from the game build. Left uses the Android ASTC 6x6 texture as shipped, middle uses the paired PC + Android textures run through `clean.py` at the default settings, and right is the clean original.
 
 **Machairodus (`30180_skin_Machairodus04`, `-thorough`)** — Raw ASTC `39.67 dB / seam 1.135` → Cleaned `45.91 dB / seam 0.443`
 
@@ -35,13 +35,11 @@ These three textures are held out from training and have known lossless original
 
 ![Ijen SP rendered with raw ASTC, cleaned, and clean original textures](docs/render_ijensp04a.png)
 
-### Live skin (`Kunlun SP`) vs lossless TW `RGBA32`
+**Kunlun SP (`30500_skin_KunlunSP04a`, `-medium`)** — unseen skin (`scale:0.55`): Raw ASTC `42.43 dB / seam 1.282` (Raw DXT5 `39.97 dB / seam 1.180`) → Cleaned `49.38 dB / edges 44.58 dB / seam 0.436 / SSIM 0.9936` against the lossless TW `RGBA32` original.
 
-**Kunlun SP (`30500_skin_KunlunSP04a`)** — left is the shipped CN Android ASTC 6x6 texture (`scale:0.50`), middle is the paired CN PC DXT5 + Android ASTC 6x6 output cleaned with `clean.py` at default settings, and right is the lossless `RGBA32` original shipped in the TW PC build (`scale:0.55`).
+![Kunlun SP rendered with raw ASTC, cleaned v1.0, and lossless TW RGBA32 textures](docs/render_kunlunsp04a.png)
 
-![Kunlun SP rendered with raw CN ASTC, cleaned v1.0, and lossless TW RGBA32 textures](docs/render_kunlunsp04a.png)
-
-> **An unexpected quirk on the left hair lock:** look closely at the diagonal edge of the left hair strand in the middle (`Cleaned (v1.0)`) vs right (`Clean original (TW RGBA32)`) panels. The artist's own lossless `RGBA32` export has a 1-pixel dark Photoshop cutout fringe along that hair piece. Once `DXT5` and `ASTC 6x6` compress that edge, the cutout fringe becomes indistinguishable from compression-induced edge fringing; because the model is trained on clean art with coherent seam loss, it reconstructs a smooth, fringe-free hair edge — inadvertently cleaning up the artist's cutout defect too. Everywhere else (eyelashes, fine painted strands, and highlights), the lossless TW `RGBA32` original remains sharper (`scale:0.55` vs CN's `scale:0.50`).
+> **An unexpected quirk on the left hair lock (bottom row):** look closely at the diagonal edge of the left hair strand in `Cleaned (v1.0)` vs `Clean original (TW RGBA32)`. The artist's own lossless `RGBA32` export has a 1-pixel dark Photoshop cutout fringe baked onto that hair piece. Once `DXT5` and `ASTC 6x6` compress that edge, the cutout fringe becomes indistinguishable from compression-induced edge fringing; because the model is trained on clean art with coherent seam loss, it predicts a smooth, fringe-free hair edge — inadvertently cleaning up the artist's cutout defect too, while matching the lossless original across the eyes, eyelashes, and fine strands.
 
 ## What is in here
 
